@@ -8,10 +8,14 @@
   <meta property="og:title" content="AI Dev Portfolio — Claude Code × Automation">
   <meta property="og:description" content="SubAgents・Skills・Browser Automation を駆使した AI 開発の実績をまとめています。">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://miyakoda-system.github.io/ai-dev-portfolio/">
+  <meta property="og:image" content="https://miyakoda-system.github.io/ai-dev-portfolio/image/image7.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+  <!-- JS オフ時に reveal 要素を強制表示 -->
+  <noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
 
   <style>
     /* ─────────────────────────────────────────
@@ -37,7 +41,7 @@
       --transition:    0.3s cubic-bezier(0.4,0,0.2,1);
       --serif:         "Noto Serif JP","Hiragino Mincho ProN","Yu Mincho",serif;
       --mono:          "SF Mono","Fira Code","Consolas",monospace;
-      --max-w:         1160px;
+      --max-w:         1200px;
     }
 
     html { scroll-behavior: smooth; }
@@ -152,14 +156,30 @@
     }
     @media (max-width: 640px) {
       .nav { padding: 0 20px; }
-      .nav-links { display: none; }
       .nav-toggle { display: flex; }
+      .nav-links {
+        display: none;
+        position: fixed; top: 64px; left: 0; right: 0;
+        background: rgba(255,255,255,0.97);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        flex-direction: column; gap: 0; padding: 8px 0;
+        box-shadow: var(--shadow-sm);
+      }
+      .nav-links.open { display: flex; }
+      .nav-links li { width: 100%; }
+      .nav-links a {
+        display: block; padding: 14px 28px;
+        font-size: 1rem; border-bottom: 1px solid var(--border-soft);
+      }
+      .nav-links a::after { display: none; }
     }
 
     /* ─────────────────────────────────────────
        HERO
     ───────────────────────────────────────── */
     .hero {
+      min-height: 100vh;
       min-height: 100svh;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
@@ -184,7 +204,7 @@
     .hero h1 {
       font-size: clamp(2rem, 5vw, 3rem);
       font-weight: 400; line-height: 1.75;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.15em;
       margin-bottom: 20px;
       opacity: 0; animation: fadeUp 0.8s 0.4s forwards;
     }
@@ -200,8 +220,8 @@
       opacity: 0; animation: fadeUp 0.8s 0.8s forwards;
     }
     @keyframes fadeUp {
-      to { opacity: 1; transform: translateY(0); }
       from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     /* Scroll indicator */
@@ -257,7 +277,7 @@
     /* ─────────────────────────────────────────
        ABOUT
     ───────────────────────────────────────── */
-    .about { background: var(--bg-warm); padding: 96px 0; }
+    .about { background: var(--bg-warm); padding: 80px 0; }
     .about-inner {
       display: grid; grid-template-columns: 1fr 1fr;
       gap: 72px; align-items: center;
@@ -318,7 +338,7 @@
     /* ─────────────────────────────────────────
        SKILLS
     ───────────────────────────────────────── */
-    .skills { background: var(--bg-off); padding: 96px 0; }
+    .skills { background: var(--bg-off); padding: 80px 0; }
     .skills-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -335,7 +355,7 @@
       transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
     }
     .skill-card:hover {
-      transform: translateY(-5px);
+      transform: translateY(-4px);
       box-shadow: var(--shadow-md);
       border-color: rgba(232,164,184,0.4);
     }
@@ -349,7 +369,7 @@
     /* ─────────────────────────────────────────
        WORKS
     ───────────────────────────────────────── */
-    .works { padding: 96px 0; background: var(--bg); }
+    .works { padding: 80px 0; background: var(--bg); }
 
     .filter-tabs {
       display: flex; gap: 8px;
@@ -385,7 +405,7 @@
       transition: transform var(--transition), box-shadow var(--transition);
     }
     .work-card:hover {
-      transform: translateY(-5px);
+      transform: translateY(-4px);
       box-shadow: var(--shadow-md);
     }
     .work-card.hidden { display: none; }
@@ -507,7 +527,7 @@
     /* ─────────────────────────────────────────
        CONTACT
     ───────────────────────────────────────── */
-    .contact { background: var(--bg-off); padding: 96px 0; }
+    .contact { background: var(--bg-off); padding: 80px 0; }
     .contact-inner { max-width: 600px; margin: 0 auto; text-align: center; }
     .contact-inner h3 {
       font-size: 22px; font-weight: 700;
@@ -560,7 +580,7 @@
       <li><a href="#works"   data-section="works">Works</a></li>
       <li><a href="#contact" data-section="contact">Contact</a></li>
     </ul>
-    <button class="nav-toggle" id="navToggle" aria-label="メニュー">
+    <button class="nav-toggle" id="navToggle" aria-label="メニュー" aria-expanded="false" aria-controls="navLinks">
       <span></span><span></span><span></span>
     </button>
   </nav>
@@ -863,7 +883,7 @@
   </footer>
 
   <!-- LIGHTBOX -->
-  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lbTitle">
     <div class="lb-inner">
       <div class="lb-header">
         <span class="lb-title" id="lbTitle"></span>
@@ -882,17 +902,14 @@
 
   <script>
   (() => {
-    /* ── Progress bar ── */
+    /* ── Progress bar + Nav scroll effect (統合) ── */
     const bar = document.getElementById('progressBar');
-    window.addEventListener('scroll', () => {
-      const p = window.scrollY / (document.body.scrollHeight - window.innerHeight);
-      bar.style.width = (p * 100) + '%';
-    }, { passive: true });
-
-    /* ── Nav scroll effect ── */
     const nav = document.getElementById('mainNav');
     window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 40);
+      const scrolled = window.scrollY;
+      const total = document.body.scrollHeight - window.innerHeight;
+      bar.style.width = (total > 0 ? scrolled / total * 100 : 0) + '%';
+      nav.classList.toggle('scrolled', scrolled > 40);
     }, { passive: true });
 
     /* ── Active nav link on scroll ── */
@@ -938,52 +955,95 @@
     });
 
     /* ── Lightbox ── */
-    const lb     = document.getElementById('lightbox');
-    const lbImg  = document.getElementById('lbImg');
+    const lb      = document.getElementById('lightbox');
+    const lbImg   = document.getElementById('lbImg');
     const lbTitle = document.getElementById('lbTitle');
-    const lbDesc = document.getElementById('lbDesc');
+    const lbDesc  = document.getElementById('lbDesc');
     const lbClose = document.getElementById('lbClose');
-    const lbPrev = document.getElementById('lbPrev');
-    const lbNext = document.getElementById('lbNext');
+    const lbPrev  = document.getElementById('lbPrev');
+    const lbNext  = document.getElementById('lbNext');
 
     const allCards = [...document.querySelectorAll('.work-card[data-img]')];
     let currentIdx = 0;
+    let triggerEl  = null; // フォーカスリターン用
 
-    function openLb(idx) {
-      currentIdx = idx;
-      const c = allCards[idx];
-      lbImg.src = c.dataset.img;
-      lbImg.alt = c.dataset.title;
-      lbTitle.textContent = c.dataset.title;
-      lbDesc.textContent = c.dataset.desc;
-      lbPrev.disabled = idx === 0;
-      lbNext.disabled = idx === allCards.length - 1;
+    /* 表示中のカード（フィルター適用後）だけを対象にする */
+    function visibleCards() {
+      return allCards.filter(c => !c.classList.contains('hidden'));
+    }
+
+    function openLb(card) {
+      const vis = visibleCards();
+      currentIdx = vis.indexOf(card);
+      lbImg.src = card.dataset.img;
+      lbImg.alt = card.dataset.title;
+      lbTitle.textContent = card.dataset.title;
+      lbDesc.textContent  = card.dataset.desc;
+      lbPrev.disabled = currentIdx === 0;
+      lbNext.disabled = currentIdx === vis.length - 1;
       lb.classList.add('open');
       document.body.style.overflow = 'hidden';
+      /* フォーカストラップ: 閉じるボタンにフォーカス移動 */
+      lbClose.focus();
     }
+
     function closeLb() {
       lb.classList.remove('open');
       document.body.style.overflow = '';
+      /* フォーカスリターン: 元のカードに戻す */
+      if (triggerEl) { triggerEl.focus(); triggerEl = null; }
     }
 
-    allCards.forEach((card, i) => {
-      card.addEventListener('click', () => openLb(i));
+    function navigateLb(dir) {
+      const vis = visibleCards();
+      const next = currentIdx + dir;
+      if (next >= 0 && next < vis.length) openLb(vis[next]);
+    }
+
+    /* フォーカストラップ: Tab キーを lightbox 内に閉じ込める */
+    const focusable = () => [...lb.querySelectorAll(
+      'button:not([disabled]),a[href],input,[tabindex]:not([tabindex="-1"])'
+    )];
+    lb.addEventListener('keydown', e => {
+      if (e.key !== 'Tab') return;
+      const els = focusable();
+      if (!els.length) return;
+      const first = els[0], last = els[els.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+      } else {
+        if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
+      }
+    });
+
+    allCards.forEach(card => {
+      card.addEventListener('click', () => { triggerEl = card; openLb(card); });
     });
     lbClose.addEventListener('click', closeLb);
     lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
-    lbPrev.addEventListener('click', () => openLb(currentIdx - 1));
-    lbNext.addEventListener('click', () => openLb(currentIdx + 1));
+    lbPrev.addEventListener('click', () => navigateLb(-1));
+    lbNext.addEventListener('click', () => navigateLb(+1));
     document.addEventListener('keydown', e => {
       if (!lb.classList.contains('open')) return;
-      if (e.key === 'Escape') closeLb();
-      if (e.key === 'ArrowLeft' && currentIdx > 0) openLb(currentIdx - 1);
-      if (e.key === 'ArrowRight' && currentIdx < allCards.length - 1) openLb(currentIdx + 1);
+      if (e.key === 'Escape')     closeLb();
+      if (e.key === 'ArrowLeft')  navigateLb(-1);
+      if (e.key === 'ArrowRight') navigateLb(+1);
     });
 
-    /* ── Mobile nav toggle (future use) ── */
-    document.getElementById('navToggle').addEventListener('click', () => {
-      const links = document.getElementById('navLinks');
-      links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+    /* ── Mobile nav toggle ── */
+    const navToggle = document.getElementById('navToggle');
+    const navLinks  = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+      const isOpen = navLinks.classList.contains('open');
+      navToggle.setAttribute('aria-expanded', isOpen);
+    });
+    /* ナビリンクをタップしたらメニューを閉じる */
+    navLinks.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
     });
   })();
   </script>
