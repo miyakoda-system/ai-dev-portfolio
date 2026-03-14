@@ -100,7 +100,6 @@
     .reveal-delay-1 { transition-delay: 0.1s; }
     .reveal-delay-2 { transition-delay: 0.2s; }
     .reveal-delay-3 { transition-delay: 0.3s; }
-    .reveal-delay-4 { transition-delay: 0.4s; }
 
     /* ─────────────────────────────────────────
        NAVIGATION
@@ -128,7 +127,7 @@
       align-items: center;
     }
     .nav-links a {
-      font-size: 0.875rem; color: var(--muted);
+      font-size: 0.875rem; color: var(--text);
       letter-spacing: 0.04em;
       transition: color var(--transition);
       position: relative; padding-bottom: 2px;
@@ -402,6 +401,7 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       overflow: hidden; cursor: pointer;
+      box-shadow: none;
       transition: transform var(--transition), box-shadow var(--transition);
     }
     .work-card:hover {
@@ -590,7 +590,7 @@
     <span class="hero-eyebrow">$ claude --mode portfolio</span>
     <h1>Claude Code <em>×</em><br>AI Automation</h1>
     <p class="hero-desc">
-      SubAgents・Skills・Browser Automation を駆使した<br>
+      SubAgents・Skills・Browser Automation を駆使した
       AI 開発ワークフローの実績をまとめています。
     </p>
     <div class="hero-btns">
@@ -694,11 +694,11 @@
       <h2 class="section-title reveal">実績ギャラリー</h2>
 
       <div class="filter-tabs reveal">
-        <button class="tab active" data-filter="all">すべて</button>
-        <button class="tab" data-filter="subagents">SubAgents</button>
-        <button class="tab" data-filter="skills">Skills</button>
-        <button class="tab" data-filter="automation">自動化</button>
-        <button class="tab" data-filter="web">Web</button>
+        <button class="tab active" data-filter="all" aria-pressed="true">すべて</button>
+        <button class="tab" data-filter="subagents" aria-pressed="false">SubAgents</button>
+        <button class="tab" data-filter="skills" aria-pressed="false">Skills</button>
+        <button class="tab" data-filter="automation" aria-pressed="false">自動化</button>
+        <button class="tab" data-filter="web" aria-pressed="false">Web</button>
       </div>
 
       <div class="works-grid" id="worksGrid">
@@ -890,7 +890,7 @@
         <button class="lb-close" id="lbClose" aria-label="閉じる">✕</button>
       </div>
       <div class="lb-img">
-        <img id="lbImg" src="" alt="拡大画像">
+        <img id="lbImg" src="" alt="" loading="lazy">
       </div>
       <div class="lb-footer" id="lbDesc"></div>
       <div class="lb-nav">
@@ -943,8 +943,9 @@
     const cards = document.querySelectorAll('.work-card[data-categories]');
     tabs.forEach(tab => {
       tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
+        tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-pressed', 'false'); });
         tab.classList.add('active');
+        tab.setAttribute('aria-pressed', 'true');
         const f = tab.dataset.filter;
         cards.forEach(card => {
           const cats = card.dataset.categories || '';
