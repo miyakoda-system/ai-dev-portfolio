@@ -281,7 +281,7 @@
       display: grid; grid-template-columns: 1fr 1fr;
       gap: 72px; align-items: center;
     }
-    @media (max-width: 800px) {
+    @media (max-width: 900px) {
       .about-inner { grid-template-columns: 1fr; gap: 40px; }
     }
     .about-label  { text-align: left; }
@@ -477,6 +477,7 @@
       background: rgba(255,255,255,0.97);
       border-radius: 12px;
       max-width: min(900px, 92vw);
+      max-height: 90vh;
       max-height: 90svh;
       overflow: hidden;
       box-shadow: 0 40px 80px rgba(0,0,0,0.15);
@@ -588,7 +589,7 @@
   <!-- HERO -->
   <section class="hero" id="hero">
     <span class="hero-eyebrow">$ claude --mode portfolio</span>
-    <h1>Claude Code <em>×</em><br>AI Automation</h1>
+    <h1>Claude Code <em>×</em> AI Automation</h1>
     <p class="hero-desc">
       SubAgents・Skills・Browser Automation を駆使した
       AI 開発ワークフローの実績をまとめています。
@@ -704,6 +705,7 @@
       <div class="works-grid" id="worksGrid">
 
         <div class="work-card reveal reveal-delay-1"
+             tabindex="0" role="button"
              data-categories="subagents"
              data-title="並列エージェント実行"
              data-desc="doc-writer と code-reviewer を同時起動。ドキュメント生成とコードレビューをバックグラウンドで並列処理し、開発時間を大幅に短縮。"
@@ -724,6 +726,7 @@
         </div>
 
         <div class="work-card reveal reveal-delay-2"
+             tabindex="0" role="button"
              data-categories="skills automation"
              data-title="build-and-review ワークフロー"
              data-desc="Analyzer → Builder → Reviewer の3ステップを /build-and-review スキルで自動実行。verdict: APPROVED WITH NOTES で完了。"
@@ -744,6 +747,7 @@
         </div>
 
         <div class="work-card reveal reveal-delay-3"
+             tabindex="0" role="button"
              data-categories="automation"
              data-title="Web スクレイピング自動化"
              data-desc="Yahoo News をブラウザ操作で自動スクレイピング。Claude in Chrome でトップニュース見出し10件を取得・整形して出力。"
@@ -763,6 +767,7 @@
         </div>
 
         <div class="work-card reveal reveal-delay-1"
+             tabindex="0" role="button"
              data-categories="automation"
              data-title="複数ニュースサイト一括取得"
              data-desc="Yahoo・NHK・朝日新聞の3サイトに並列アクセスし、トップニュース見出しをサイト別に整形して一覧表示。"
@@ -782,6 +787,7 @@
         </div>
 
         <div class="work-card reveal reveal-delay-2"
+             tabindex="0" role="button"
              data-categories="skills"
              data-title="SEO 記事 5000字 自動生成"
              data-desc="seo-blog-writer スキルで Claude Code の解説記事を生成。char-counter との連携で目標文字数 ±1% (5014字) に自動最適化。"
@@ -802,6 +808,7 @@
         </div>
 
         <div class="work-card reveal reveal-delay-3"
+             tabindex="0" role="button"
              data-categories="subagents"
              data-title="AI セキュリティレビュー"
              data-desc="code-reviewer エージェントが SQLインジェクション・MD5ハッシュ・秘密鍵ハードコード・DB接続リークを自動検出し、優先度付きで報告。"
@@ -821,6 +828,7 @@
         </div>
 
         <div class="work-card reveal reveal-delay-1"
+             tabindex="0" role="button"
              data-categories="skills"
              data-title="ドキュメント自動要約"
              data-desc="/summarize スキルでファイルをタイトル・3トピック・結論・改善提案の形式で構造化要約。calculator_docs.md を即座に整形。"
@@ -840,6 +848,7 @@
         </div>
 
         <div class="work-card reveal reveal-delay-2"
+             tabindex="0" role="button"
              data-categories="web"
              data-title="puyopuyo — Next.js ゲーム"
              data-desc="Claude Code と共同開発した Next.js + TypeScript ゲームアプリ。連鎖チャレンジモードを追加実装し GitHub で管理。"
@@ -1019,6 +1028,13 @@
 
     allCards.forEach(card => {
       card.addEventListener('click', () => { triggerEl = card; openLb(card); });
+      card.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          triggerEl = card;
+          openLb(card);
+        }
+      });
     });
     lbClose.addEventListener('click', closeLb);
     lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
